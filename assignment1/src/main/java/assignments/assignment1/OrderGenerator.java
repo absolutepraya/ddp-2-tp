@@ -117,6 +117,7 @@ public class OrderGenerator {
      */
     public static String generateBill(String OrderID, String lokasi) {
         String biaya;
+        lokasi = lokasi.toUpperCase(); // Memastikan lokasi dalam huruf besar
 
         // Set biaya berdasarkan lokasi
         if (lokasi.equals("P")) {biaya = "10.000";}
@@ -126,11 +127,11 @@ public class OrderGenerator {
         else {biaya = "60.000";}
 
         // Return string bill
-        return "\nBill: \n" +
+        return "Bill:\n" +
                "Order ID: " + OrderID + "\n" +
                "Tanggal Pemesanan: " + OrderID.substring(4, 6) + "/" + OrderID.substring(6, 8) + "/" + OrderID.substring(8, 12) + "\n" +
                "Lokasi Pengiriman: " + lokasi + "\n" +
-               "Biaya Ongkos Kirim: Rp " + biaya;
+               "Biaya Ongkos Kirim: Rp " + biaya + "\n";
     }
 
     public static void main(String[] args) {
