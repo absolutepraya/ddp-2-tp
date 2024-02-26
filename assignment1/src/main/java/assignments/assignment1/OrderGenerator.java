@@ -17,8 +17,8 @@ public class OrderGenerator {
         // Mencari Code 39 dari setiap karakter pada string
         for (int i = 0; i < str.length(); i++) {
             /*
-             * Jika karakter adalah angka, code39 adalah angka itu sendiri
-             * Jika karakter adalah huruf, code39 adalah nilai ASCII - 55
+             * Jika karakter adalah angka, Code 39 adalah angka itu sendiri
+             * Jika karakter adalah huruf, Code 39 adalah nilai ASCII - 55
              */
             int code39 = Character.isDigit(str.charAt(i)) ? Character.getNumericValue(str.charAt(i)) : (int) str.charAt(i) - 55;
 
@@ -29,12 +29,17 @@ public class OrderGenerator {
             }
         }
         checksum1 = checksum1 % 36; checksum2 = checksum2 % 36;
-    
-        // Meng-convert kembali dari Code 39 ke ASCII
+        
+        /*
+         * Meng-convert kembali dari Code 39 ke ASCII
+         * 
+         * Jika checksum < 10, maka hasilnya adalah angka itu sendiri
+         * Jika checksum >= 10, maka hasilnya adalah huruf dengan nilai ASCII 55 + checksum
+        */
         String checksum1Str; String checksum2Str;
         if (checksum1 < 10) {
             checksum1Str = String.valueOf(checksum1);
-        } else {
+        } else { 
             checksum1Str = String.valueOf((char) (checksum1 + 55));
         }
         if (checksum2 < 10) {
@@ -48,9 +53,9 @@ public class OrderGenerator {
     }
 
     /*
-     * Method  ini untuk menampilkan menu
+     * Method  ini untuk menampilkan header text
      */
-    public static void showMenu(){
+    public static void showHeader(){
         System.out.println(">>=======================================<<");
         System.out.println("|| ___                 ___             _ ||");
         System.err.println("||| . \\ ___  ___  ___ | __>___  ___  _| |||");
@@ -59,10 +64,17 @@ public class OrderGenerator {
         System.out.println("||          |_|                          ||");
         System.out.println(">>=======================================<<");
         System.out.println();
+    }
+
+    /*
+     * Method  ini untuk menampilkan menu
+     */
+    public static void showMenu(){
         System.out.println("Pilih menu:");
         System.err.println("1. Generate Order ID");
         System.out.println("2. Generate Bill");
         System.out.println("3. Keluar");
+        System.out.print("--------------------------------------------\n");
     }
 
     /*
@@ -112,15 +124,48 @@ public class OrderGenerator {
         else if (lokasi.equals("S")) {biaya = "40.000";}
         else {biaya = "60.000";}
 
-        return "Bill: \n" +
+        return "\nBill: \n" +
                "Order ID: " + OrderID + "\n" +
-               "Tanggal Pemesanan: " + OrderID.substring(4, 6) + "/" + OrderID.substring(6, 8) + "/" + OrderID.substring(0, 4) + "\n" +
+               "Tanggal Pemesanan: " + OrderID.substring(4, 6) + "/" + OrderID.substring(6, 8) + "/" + OrderID.substring(8, 12) + "\n" +
                "Lokasi Pengiriman: " + lokasi + "\n" +
-               "Biaya Ongkos Kirim: Rp" + biaya;
+               "Biaya Ongkos Kirim: Rp " + biaya;
     }
 
     public static void main(String[] args) {
-        // TODO: Implementasikan program sesuai ketentuan yang diberikan
+        showHeader();
+
+        while (true) {
+            // Menampilkan menu
+            showMenu();
+            
+            // Meminta input dari user
+            System.out.print("Pilih menu: ");
+            String pilihan = input.nextLine();
+
+            // Menjalankan fungsi sesuai pilihan
+            if (pilihan.equals("1")) { // Pilihan 1: Order ID
+                System.out.print("Nama Restoran: ");
+                String namaRestoran = input.nextLine();
+                System.out.print("Tanggal Pemesanan: ");
+                String tanggalOrder = input.nextLine();
+                System.out.print("No. Telepon: ");
+                String noTelepon = input.nextLine();
+                System.out.println("Order ID " + generateOrderID(namaRestoran, tanggalOrder, noTelepon) + " diterima!");
+            } else if (pilihan.equals("2")) { // Pilihan 2: Bill
+                System.out.print("Order ID: ");
+                String orderID = input.nextLine();
+                System.out.print("Lokasi Pengiriman: ");
+                String lokasi = input.nextLine().toUpperCase();
+                System.out.println(generateBill(orderID, lokasi));
+            } else if (pilihan.equals("3")) { // Pilihan 3
+                break;
+            } else {
+                System.out.println("Pilihan tidak valid!");
+            }
+            System.out.print("--------------------------------------------\n");
+        }
+
+        System.out.println("Terima kasih telah menggunakan DepeFood!");
     }
 
     
