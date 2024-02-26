@@ -211,7 +211,8 @@ public class OrderGenerator {
                 while (true) {
                     // Input dan validasi lokasi pengiriman
                     System.out.print("Lokasi Pengiriman: ");
-                    lokasi = input.nextLine().toUpperCase();
+                    lokasi = input.nextLine();
+                    lokasi = lokasi.toUpperCase();
                     if (!lokasi.equals("P") && !lokasi.equals("U") && !lokasi.equals("T") && !lokasi.equals("S") && !lokasi.equals("L")) {
                         System.out.println("Harap masukkan lokasi pengiriman yang ada pada jangkauan!\n");
                         continue;
