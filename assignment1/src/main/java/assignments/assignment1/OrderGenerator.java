@@ -205,28 +205,25 @@ public class OrderGenerator {
                         System.out.println("Silahkan masukkan Order ID yang valid!\n");
                         continue;
                     }
-                    // Uppercase Order ID
-                    orderID = orderID.toUpperCase();
                     break;
                 }
 
                 // Pengulangan input jika validasi lokasi gagal
                 while (true) {
-                    System.out.println("Order ID: " + orderID);
-
                     // Input dan validasi lokasi pengiriman
                     System.out.print("Lokasi Pengiriman: ");
                     lokasi = input.nextLine();
                     lokasi = lokasi.toUpperCase();
                     if (!lokasi.equals("P") && !lokasi.equals("U") && !lokasi.equals("T") && !lokasi.equals("S") && !lokasi.equals("L")) {
                         System.out.println("Harap masukkan lokasi pengiriman yang ada pada jangkauan!\n");
+                        System.out.println("Order ID: " + orderID);
                         continue;
                     }
                     break;
                 }
 
                 // Menampilkan Bill
-                System.out.println(generateBill(orderID, lokasi));
+                System.out.println('\n' + generateBill(orderID, lokasi));
             } 
 
             else if (pilihan.equals("3")) { // Pilihan 3: Keluar
