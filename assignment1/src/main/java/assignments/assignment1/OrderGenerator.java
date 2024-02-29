@@ -152,7 +152,7 @@ public class OrderGenerator {
                     String namaRestoran = input.nextLine();
                     // Validasi nama restoran
                     if (namaRestoran.length() < 4) {
-                        System.out.println("Nama restoran harus memiliki minimal 4 karakter!\n");
+                        System.out.println("Nama restoran tidak valid!\n");
                         continue;
                     }
 
@@ -205,11 +205,15 @@ public class OrderGenerator {
                         System.out.println("Silahkan masukkan Order ID yang valid!\n");
                         continue;
                     }
+                    // Uppercase Order ID
+                    orderID = orderID.toUpperCase();
                     break;
                 }
 
-                // Pengulangan input jika validasi lokasi pengiriman gagal
+                // Pengulangan input jika validasi lokasi gagal
                 while (true) {
+                    System.out.println("Order ID: " + orderID);
+
                     // Input dan validasi lokasi pengiriman
                     System.out.print("Lokasi Pengiriman: ");
                     lokasi = input.nextLine();
