@@ -201,7 +201,16 @@ public class OrderGenerator {
                         System.out.println("Order ID minimal 16 karakter!\n");
                         continue;
                     }
-                    if (!generateChecksum(orderID.substring(0, 14)).equals(orderID.substring(14, 16))) { // Check apakah checksum valid
+                    // Check apakah tanggal yang tertera di Order ID valid
+                    try {
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("ddMMyyyy");
+                        LocalDate.parse(orderID.substring(4, 12), formatter);
+                    } catch (DateTimeParseException e) {
+                        System.out.println("Silahkan masukkan Order ID yang valid!\n");
+                        continue;
+                    }
+                    // Check apakah checksum valid
+                    if (!generateChecksum(orderID.substring(0, 14)).equals(orderID.substring(14, 16))) {
                         System.out.println("Silahkan masukkan Order ID yang valid!\n");
                         continue;
                     }
