@@ -1,4 +1,4 @@
-.gradle
+.gradle/
 /build/
 
 # Ignore Gradle GUI config
@@ -15,6 +15,7 @@ gradle-app.setting
 
 # Customized ignores
 **/*.class
+*.class
 
 # IDEs and text editor configurations
 # Delete these if you want to use gitignore.io's instead.
