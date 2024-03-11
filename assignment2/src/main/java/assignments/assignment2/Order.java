@@ -1,10 +1,92 @@
-package main.java.assignments.assignment2;
+package assignments.assignment2;
+
+import java.util.ArrayList;
 
 public class Order {
-     // TODO: tambahkan attributes yang diperlukan untuk class ini
-    public Order(String orderId, String tanggal, int ongkir, Restaurant resto, Menu[] items){
-        // TODO: buat constructor untuk class ini
+    // Private attribute untuk class Order
+    private String orderID;
+    private String tanggalPemesanan;
+    private int biayaOngkosKirim;
+    private Restaurant restaurant;
+    private ArrayList<Menu> items;
+    private boolean orderFinished = false; // Default value
+
+    // Constructor
+    public Order(String orderID, String tanggal, int ongkir, Restaurant resto, Menu[] items) {
+        this.orderID = orderID;
+        this.tanggalPemesanan = tanggal;
+        this.biayaOngkosKirim = ongkir;
+        this.restaurant = resto;
+        this.items = new ArrayList<Menu>();
+        for (Menu item : items) {
+            this.items.add(item);
+        }
     }
-    
-    // TODO: tambahkan methods yang diperlukan untuk class ini
+
+    // Setter
+    public void setOrderID(String orderID) {
+        this.orderID = orderID;
+    }
+    public void setTanggalPemesanan(String tanggalPemesanan) {
+        this.tanggalPemesanan = tanggalPemesanan;
+    }
+    public void setBiayaOngkosKirim(int biayaOngkosKirim) {
+        this.biayaOngkosKirim = biayaOngkosKirim;
+    }
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
+    }
+    public void setItems(ArrayList<Menu> items) {
+        this.items = items;
+    }
+    public void setOrderFinished(boolean orderFinished) {
+        this.orderFinished = orderFinished;
+    }
+
+    // Getter
+    public String getOrderID() {
+        return this.orderID;
+    }
+    public String getTanggalPemesanan() {
+        return this.tanggalPemesanan;
+    }
+    public int getBiayaOngkosKirim() {
+        return this.biayaOngkosKirim;
+    }
+    public Restaurant getRestaurant() {
+        return this.restaurant;
+    }
+    public ArrayList<Menu> getItems() {
+        return this.items;
+    }
+    public boolean getOrderFinished() {
+        return this.orderFinished;
+    }
+
+    // Method untuk me-return status pesanan
+    public String statusPengiriman() {
+        if (this.orderFinished) {
+            return "Finished";
+        } else {
+            return "Not Finished";
+        }
+    }
+
+    // Method untuk me-return list makanan yang dipesan
+    public String listMakanan() {
+        String listMakanan = "";
+        for (Menu menu : this.items) {
+            listMakanan += "- " + menu.getNamaMakanan() + " " + String.format("%.0f", menu.getHarga()) + "\n";
+        }
+        return listMakanan;
+    }
+
+    // Method untuk menghitung total harga pesanan
+    public double totalBiaya() {
+        double totalHarga = 0;
+        for (Menu menu : this.items) {
+            totalHarga += menu.getHarga();
+        }
+        return totalHarga + this.biayaOngkosKirim;
+    }
 }
