@@ -22,21 +22,6 @@ public class User {
     }
 
     // Setter
-    public void setNama(String nama) {
-        this.nama = nama;
-    }
-    public void setNomorTelepon(String nomorTelepon) {
-        this.nomorTelepon = nomorTelepon;
-    }
-    public void setEmail(String email) {
-        this.email = email;
-    }
-    public void setLokasi(String lokasi) {
-        this.lokasi = lokasi;
-    }
-    public void setRole(String role) {
-        this.role = role;
-    }
     public void addOrderHistory(Order orderHistory) {
         this.orderHistory.add(orderHistory);
     }

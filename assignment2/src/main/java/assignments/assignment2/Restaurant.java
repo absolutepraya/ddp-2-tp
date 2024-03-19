@@ -14,9 +14,6 @@ public class Restaurant {
     }
 
     // Setter
-    public void setNama(String nama) {
-        this.nama = nama;
-    }
     public void setMenu(ArrayList<Menu> menu) {
         this.menu = menu;
     }

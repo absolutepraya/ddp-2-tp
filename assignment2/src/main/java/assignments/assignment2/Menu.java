@@ -11,13 +11,7 @@ public class Menu {
         this.harga = harga;
     }
 
-    // Setter
-    public void setNamaMakanan(String namaMakanan) {
-        this.namaMakanan = namaMakanan;
-    }
-    public void setHarga(double harga) {
-        this.harga = harga;
-    }
+    // Setter tidak dibutuhkan
 
     // Getter
     public String getNamaMakanan() {
