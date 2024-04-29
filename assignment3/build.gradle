@@ -1,5 +1,5 @@
 application {
-    mainClass.set('assignments.assignment2.MainMenu')
+    mainClass.set('assignments.assignment3.MainMenu')
 }
 
 run {
@@ -8,4 +8,5 @@ run {
 
 dependencies {
     implementation project(':assignment1')
+    implementation project(':assignment2')
 }

@@ -10,7 +10,7 @@ import java.time.format.DateTimeParseException;
 
 public class MainMenu {
     private static final Scanner input = new Scanner(System.in);
-    private static ArrayList<Restaurant> restoList;
+    public static ArrayList<Restaurant> restoList;
     private static ArrayList<User> userList;
 
     public static void main(String[] args) {
