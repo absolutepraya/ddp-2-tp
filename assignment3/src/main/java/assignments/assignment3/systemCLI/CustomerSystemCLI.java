@@ -278,7 +278,7 @@ public class CustomerSystemCLI extends UserSystemCLI {
         orderToPay.setOrderFinished(true);
     }
 
-    public void handleCekSaldo() {
+    void handleCekSaldo() {
         // Mencetak saldo user
         System.out.println("\nSisa saldo sebesar Rp " + MainMenu.getUserLoggedIn().getSaldo());
     }  

@@ -36,9 +36,6 @@ public class MainMenu {
     // }
 
     // Setter
-    public static void setUserList(ArrayList<User> userList) {
-        MainMenu.userList = userList;
-    }
     public static void setRestoList(ArrayList<Restaurant> restoList) {
         MainMenu.restoList = restoList;
     }

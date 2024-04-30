@@ -22,9 +22,6 @@ public class Restaurant {
         Menu newMenu = new Menu(namaMakanan, harga);
         this.menu.add(newMenu);
     }
-    public void removeMenu(int index) { // Remover
-        this.menu.remove(index);
-    }
     public void addSaldo(long amount) { // Adder
         this.saldo = saldo + amount;
     }
