@@ -19,6 +19,7 @@ public class CustomerSystemCLI extends UserSystemCLI {
             case 3 -> handleLihatMenu();
             case 4 -> handleBayarBill();
             case 5 -> handleCekSaldo();
+            case 5 -> handleCekSaldo();
             case 6 -> {
                 return false;
             }

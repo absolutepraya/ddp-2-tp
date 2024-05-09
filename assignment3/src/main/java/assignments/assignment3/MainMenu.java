@@ -13,6 +13,7 @@ import assignments.assignment3.payment.CreditCardPayment;
 import assignments.assignment3.payment.DebitPayment;
 import assignments.assignment3.systemCLI.AdminSystemCLI;
 import assignments.assignment3.systemCLI.CustomerSystemCLI;
+import assignments.assignment3.systemCLI.UserSystemCLI;
 
 public class MainMenu {
     private final Scanner input;
@@ -58,6 +59,7 @@ public class MainMenu {
     }
 
     public void run() {
+    public void run() {
         printHeader();
         boolean exit = false;
         while (!exit) {
@@ -95,7 +97,7 @@ public class MainMenu {
         loginManager.getSystem(userLoggedIn.getRole()).run();
     }
 
-    private static void printHeader(){
+    private static void printHeader() {
         System.out.println("\n>>=======================================<<");
         System.out.println("|| ___                 ___             _ ||");
         System.out.println("||| . \\ ___  ___  ___ | __>___  ___  _| |||");
@@ -125,7 +127,8 @@ public class MainMenu {
         userList.add(new User("Aurora Anum", "087788129043", "a.anum@gmail.com", "U", "Customer", new DebitPayment(), 650000));
 
         userList.add(new User("Admin", "123456789", "admin@gmail.com", "-", "Admin", new CreditCardPayment(), 0));
-        userList.add(new User("Admin Baik", "9123912308", "admin.b@gmail.com", "-", "Admin", new CreditCardPayment(), 0));
+        userList.add(
+                new User("Admin Baik", "9123912308", "admin.b@gmail.com", "-", "Admin", new CreditCardPayment(), 0));
     }
 
     public static User getUser(String nama, String nomorTelepon) {

@@ -7,6 +7,7 @@ import java.time.format.DateTimeParseException;
 
 public class OrderGenerator {
     private static final Scanner input = new Scanner(System.in);
+    private static final int ORDER_ID_LENGTH = 16;
 
     /*
      * Method ini digunakan untuk mengenerate checksum dari string
@@ -55,7 +56,7 @@ public class OrderGenerator {
     public static void showHeader(){
         System.out.println(">>=======================================<<");
         System.out.println("|| ___                 ___             _ ||");
-        System.out.println("||| . \\ ___  ___  ___ | __>___  ___  _| |||");
+        System.err.println("||| . \\ ___  ___  ___ | __>___  ___  _| |||");
         System.out.println("||| | |/ ._>| . \\/ ._>| _>/ . \\/ . \\/ . |||");
         System.out.println("|||___/\\___.|  _/\\___.|_| \\___/\\___/\\___|||");
         System.out.println("||          |_|                          ||");
@@ -68,7 +69,7 @@ public class OrderGenerator {
      */
     public static void showMenu(){
         System.out.println("Pilih menu:");
-        System.out.println("1. Generate Order ID");
+        System.err.println("1. Generate Order ID");
         System.out.println("2. Generate Bill");
         System.out.println("3. Keluar");
         System.out.print("--------------------------------------------\n");
@@ -77,7 +78,7 @@ public class OrderGenerator {
     /*
      * Method ini digunakan untuk membuat ID
      * dari nama restoran, tanggal order, dan nomor telepon
-     * 
+     *
      * @return String Order ID dengan format sesuai pada dokumen soal
      */
     public static String generateOrderID(String namaRestoran, String tanggalOrder, String noTelepon) {
@@ -107,7 +108,7 @@ public class OrderGenerator {
     /*
      * Method ini digunakan untuk membuat bill
      * dari order id dan lokasi
-     * 
+     *
      * @return String Bill dengan format sesuai di bawah:
      *          Bill:
      *          Order ID: [Order ID]
