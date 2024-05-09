@@ -19,7 +19,5 @@ public class LoginManager {
         } else {
             return adminSystem;
         }
-
-        return adminSystem;
     }
 }

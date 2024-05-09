@@ -1,4 +1,4 @@
-package assignments.assignment3;
+package assignments.assignment4;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -8,7 +8,11 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
 
-import assignments.assignment1.OrderGenerator;
+import assignments.assignment3.assignment2copy.Menu;
+import assignments.assignment3.assignment2copy.Order;
+import assignments.assignment3.assignment2copy.Restaurant;
+import assignments.assignment3.assignment2copy.User;
+
 import assignments.assignment3.payment.CreditCardPayment;
 import assignments.assignment3.payment.DebitPayment;
 import assignments.assignment3.payment.DepeFoodPaymentSystem;
@@ -94,7 +98,7 @@ public class DepeFood {
             if (isRestaurantExist) {
                 return String.format("Restoran dengan nama %s sudah pernah terdaftar. Mohon masukkan nama yang berbeda!", inputName);
             } else if (!isRestaurantNameLengthValid) {
-               return "Nama Restoran tidak valid! Minimal 4 karakter diperlukan.";
+                return "Nama Restoran tidak valid! Minimal 4 karakter diperlukan.";
             } else {
                 name = inputName;
                 isRestaurantNameValid = true;
@@ -113,7 +117,7 @@ public class DepeFood {
     }
     
     public static void handleTambahMenuRestoran(Restaurant restoran, String namaMakanan, double harga){
-        restoran.addMenu(new Menu(namaMakanan, harga));
+        restoran.addMenu(namaMakanan, harga);
     }
 
     public static List<Restaurant> getRestoList() {
@@ -262,19 +266,4 @@ public class DepeFood {
     public static void setPenggunaLoggedIn(User user){
         userLoggedIn = user;
     }
-
-
-
-
-    
-
-    
-
-
-
-
-
-
-
-   
 }

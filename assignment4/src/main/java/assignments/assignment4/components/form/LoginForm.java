@@ -1,7 +1,11 @@
 package assignments.assignment4.components.form;
 
-import assignments.assignment3.DepeFood;
-import assignments.assignment3.User;
+import assignments.assignment3.assignment2copy.Menu;
+import assignments.assignment3.assignment2copy.Order;
+import assignments.assignment3.assignment2copy.Restaurant;
+import assignments.assignment3.assignment2copy.User;
+
+
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -13,6 +17,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
+
+import assignments.assignment4.DepeFood;
 import assignments.assignment4.MainApp;
 import assignments.assignment4.page.AdminMenu;
 import assignments.assignment4.page.CustomerMenu;

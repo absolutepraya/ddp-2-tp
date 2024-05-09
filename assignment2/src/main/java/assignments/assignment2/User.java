@@ -2,8 +2,6 @@ package assignments.assignment2;
 
 import java.util.ArrayList;
 
-import java.util.ArrayList;
-
 public class User {
     // Private attribute untuk class User
     private String nama;

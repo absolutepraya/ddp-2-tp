@@ -3,11 +3,16 @@ package assignments.assignment4;
 import java.util.HashMap;
 import java.util.Map;
 
-import assignments.assignment3.DepeFood;
-import assignments.assignment3.User;
+import assignments.assignment3.assignment2copy.Menu;
+import assignments.assignment3.assignment2copy.Order;
+import assignments.assignment3.assignment2copy.Restaurant;
+import assignments.assignment3.assignment2copy.User;
+
+import assignments.assignment4.DepeFood;
 import assignments.assignment4.components.form.LoginForm;
 import assignments.assignment4.page.AdminMenu;
 import assignments.assignment4.page.CustomerMenu;
+
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;

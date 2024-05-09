@@ -1,7 +1,5 @@
 package assignments.assignment2;
 
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -14,7 +12,6 @@ public class MainMenu {
     private static final Scanner input = new Scanner(System.in);
     public static ArrayList<Restaurant> restoList;
     private static ArrayList<User> userList;
-    private static User userLoggedIn;
 
     public static void main(String[] args) {
         initUser(); // Inisialisasi user dan admin
