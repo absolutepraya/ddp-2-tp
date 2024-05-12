@@ -248,7 +248,7 @@ public class CustomerSystemCLI extends UserSystemCLI {
                     System.out.println("Saldo tidak mencukupi mohon menggunakan metode pembayaran yang lain");
                     return;
                 } else {
-                    paymentSystem.moveSaldo(orderToPay, totalBiaya);
+                    paymentSystem.moveSaldo(orderToPay, result);
                     System.out.println("\nBerhasil Membayar Bill sebesar Rp " + totalBiaya + " dengan biaya transaksi sebesar Rp " + (result - totalBiaya));
                 }
                 break;
@@ -259,14 +259,19 @@ public class CustomerSystemCLI extends UserSystemCLI {
                 }
 
                 result = paymentSystem.processPayment(totalBiaya);
-
+                
+                if (result == -1) {
+                    System.out.println("User belum memiliki metode pembayaran ini!");
+                    return;
+                } else
                 if (result == -2) {
                     System.out.println("Jumlah pesanan < 50000 mohon menggunakan metode pembayaran yang lain");
+                    return;
                 } else if (result == -3) {
                     System.out.println("Saldo tidak mencukupi mohon menggunakan metode pembayaran yang lain");
                     return;
                 } else {
-                    paymentSystem.moveSaldo(orderToPay, totalBiaya);
+                    paymentSystem.moveSaldo(orderToPay, result);
                     System.out.println("\nBerhasil Membayar Bill sebesar Rp " + totalBiaya);
                 }
                 break;
