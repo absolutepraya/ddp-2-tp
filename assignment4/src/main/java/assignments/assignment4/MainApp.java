@@ -15,7 +15,9 @@ import assignments.assignment4.page.CustomerMenu;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
+import javafx.scene.image.Image;
 
 public class MainApp extends Application {
 
@@ -30,11 +32,20 @@ public class MainApp extends Application {
         window.setTitle("DepeFood Ordering System");
         DepeFood.initUser(); // Initialize users
 
+        // Set the app icon
+        // Image appIcon = new Image(getClass().getResourceAsStream("/assignments/assignment4/assets/AppIcon.png"));
+        // window.getIcons().add(appIcon);
+
+        // Make the window not resizable and set the size
+        window.setResizable(false);
+        window.setWidth(400);
+        window.setHeight(600);
+        
         // Initialize all scenes
         Scene loginScene = new LoginForm(window, this).getScene();
 
         // Populate all scenes map
-        allScenes.put("Login", loginScene);
+        addScene("Login", loginScene);
 
         // Set the initial scene of the application to the login scene
         setScene(loginScene);
@@ -60,9 +71,31 @@ public class MainApp extends Application {
         allScenes.put(sceneName, scene);
     }
 
-    public void logout() {
+    public Stage getWindow() {
+        return window;
+    }
+
+    public void logOut() {
         setUser(null); // Clear the current user
         setScene(getScene("Login")); // Switch to the login scene
+    }
+
+    public static void createAlert(String title, String contextText) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(title);
+        alert.setHeaderText(null); // Hide the header
+        alert.setContentText(contextText);
+        alert.showAndWait();
+        return;
+    }
+
+    public static void createOK(String title, String contextText) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null); // Hide the header
+        alert.setContentText(contextText);
+        alert.showAndWait();
+        return;
     }
 
     public static void main(String[] args) {
