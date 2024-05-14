@@ -31,11 +31,15 @@ public class MainMenu {
     public static User getUserLoggedIn() {
         return userLoggedIn;
     }
+
     // public Scanner getInput() {
     //     return input;
     // }
 
     // Setter
+    public static void setUserLoggedIn(User user) {
+        userLoggedIn = user;
+    }
     public static void setRestoList(ArrayList<Restaurant> restoList) {
         MainMenu.restoList = restoList;
     }

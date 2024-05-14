@@ -2,11 +2,12 @@ package assignments.assignment4.page;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
+// import javafx.geometry.Insets;
+// import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.Region;
+// import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -22,10 +23,13 @@ import assignments.assignment4.DepeFood;
 import assignments.assignment4.MainApp;
 import assignments.assignment4.components.BillPrinter;
 
-import java.util.ArrayList;
-import java.util.Arrays;
+// import java.util.ArrayList;
+// import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.time.LocalDate;
+// import java.util.stream.Collectors;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 
 public class CustomerMenu extends MemberMenu{
     private Stage stage;
@@ -36,9 +40,12 @@ public class CustomerMenu extends MemberMenu{
     private Scene cekSaldoScene;
     private BillPrinter billPrinter; // Instance of BillPrinter
     private ComboBox<String> restaurantComboBox = new ComboBox<>();
+    private Label saldoLabel = new Label();
+    private Label saldoMenuLabel = new Label();
+    // Set the saldoMenuLabel to bold and green colored
     // private static Label label = new Label();
     private MainApp mainApp;
-    private List<Restaurant> restoList = DepeFood.getRestoList();
+    // private List<Restaurant> restoList = DepeFood.getRestoList();
     private User user;
 
     public CustomerMenu(Stage stage, MainApp mainApp, User user) {
@@ -48,16 +55,18 @@ public class CustomerMenu extends MemberMenu{
         this.scene = createBaseMenu();
         setScene(scene);
         this.addOrderScene = createTambahPesananForm();
-        // this.billPrinter = new BillPrinter(stage, mainApp, this.user); // Pass user to BillPrinter constructor
-        // this.printBillScene = createBillPrinter();
+        this.billPrinter = new BillPrinter(stage, mainApp, scene);
+        billPrinter.setScene(scene);
+        this.printBillScene = createBillPrinter();
         this.payBillScene = createBayarBillForm();
         this.cekSaldoScene = createCekSaldoScene();
+        this.saldoMenuLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: green;");
+        this.saldoMenuLabel.setText("Saldo anda: Rp " + user.getSaldo());
     }
 
     @Override
     public Scene createBaseMenu() {
-        VBox menuLayout = new VBox(10);
-        menuLayout.setPadding(new Insets(15, 15, 15, 15));
+        VBox menuLayout = new VBox();
 
         // Create the buttons
         Button addOrderButton = new Button("Buat Pesanan");
@@ -66,47 +75,46 @@ public class CustomerMenu extends MemberMenu{
         Button cekSaldoButton = new Button("Cek Saldo");
         Button logOutButton = new Button("Log Out");
 
-        // Set the buttons to have the same width, around 150px
-        addOrderButton.setMinWidth(150);
-        printBillButton.setMinWidth(150);
-        payBillButton.setMinWidth(150);
-        cekSaldoButton.setMinWidth(150);
-        logOutButton.setMinWidth(150);
+        // Create title and subtitle label
+        Label title = new Label("Customer Menu");
+        setTitleFont(title);
+        Label subtitle = new Label("Welcome, " + user.getNama() + "!\nMau makan apa hari ini :D");
+        subtitle.setStyle("-fx-text-alignment: center;"); // Center the text
 
-        // Center the text in the buttons
-        addOrderButton.setAlignment(Pos.CENTER);
-        printBillButton.setAlignment(Pos.CENTER);
-        payBillButton.setAlignment(Pos.CENTER);
-        cekSaldoButton.setAlignment(Pos.CENTER);
-        logOutButton.setAlignment(Pos.CENTER);
+        // Create spacer
+        Region spacer1 = createSpacer(20);
+        Region spacer2 = createSpacer(10);
 
-        // Add the buttons to the layout
-        menuLayout.getChildren().addAll(addOrderButton, printBillButton, payBillButton, cekSaldoButton, logOutButton);
+        // Add the components to the layout
+        setUpVBoxLayout(menuLayout, title, subtitle, saldoMenuLabel, spacer1, addOrderButton, printBillButton, payBillButton, cekSaldoButton, spacer2, logOutButton);
 
         // Set the action for the buttons
-        addOrderButton.setOnAction(e -> stage.setScene(addOrderScene));
-        // printBillButton.setOnAction(e -> stage.setScene(printBillScene));
+        addOrderButton.setOnAction(e -> {
+            refresh(restaurantComboBox); // Refresh the combobox
+            stage.setScene(addOrderScene);
+        });
+        printBillButton.setOnAction(e -> stage.setScene(printBillScene));
         payBillButton.setOnAction(e -> stage.setScene(payBillScene));
-        cekSaldoButton.setOnAction(e -> stage.setScene(cekSaldoScene));
+        cekSaldoButton.setOnAction(e -> {
+            stage.setScene(cekSaldoScene);
+            saldoLabel.setText("Saldo: Rp " + user.getSaldo());
+        });
         logOutButton.setOnAction(e -> mainApp.logOut());
 
         return new Scene(menuLayout, 400, 600);
     }
 
     private Scene createTambahPesananForm() {
-        VBox menuLayout = new VBox(10);
-        menuLayout.setPadding(new Insets(15, 15, 15, 15));
+        VBox menuLayout = new VBox();
 
         // Create the labels
         Label restaurantLabel = new Label("Restaurant:");
-        Label dateLabel = new Label("Date (MM/DD/YYYY):");
+        Label dateLabel = new Label("Date (DD/MM/YYYY):");
         Label menuLabel = new Label("Menu Items:");
 
-        // Create combo box for restaurant
-        restaurantComboBox.setItems(FXCollections.observableArrayList(restoList.stream().map(Restaurant::getNama).collect(Collectors.toList())));
-
-        // Create the date picker
-        DatePicker orderDate = new DatePicker();
+        // Create the text fields
+        TextField orderDate = new TextField();
+        orderDate.setPromptText("Enter date (DD/MM/YYYY)");
 
         // Create the list view for menu items
         ListView<String> menuItemsListView = new ListView<>();
@@ -120,85 +128,50 @@ public class CustomerMenu extends MemberMenu{
         Button orderButton = new Button("Buat Pesanan");
         Button backButton = new Button("Kembali");
 
-        // Set the buttons to have the same width, around 150px
-        menuButton.setMinWidth(150);
-        orderButton.setMinWidth(150);
-        backButton.setMinWidth(150);
-
-        // Center the text in the buttons
-        menuButton.setAlignment(Pos.CENTER);
-        orderButton.setAlignment(Pos.CENTER);
-        backButton.setAlignment(Pos.CENTER);
-
         // Add the components to the layout
-        menuLayout.getChildren().addAll(restaurantLabel, restaurantComboBox, dateLabel, orderDate, menuButton, menuLabel, menuItemsListView, orderButton, backButton);
+        setUpVBoxLayout(menuLayout, restaurantLabel, restaurantComboBox, dateLabel, orderDate, menuButton,  menuLabel, menuItemsListView, orderButton, backButton);
 
         // Set the action for the buttons
         menuButton.setOnAction(e -> {
-            // Get the selected restaurant
-            String selectedRestaurant = restaurantComboBox.getSelectionModel().getSelectedItem();
-            // Get the restaurant object
-            Restaurant restaurant = DepeFood.getRestaurantByName(selectedRestaurant);
-            if (restaurant != null) {
-                // Get the menu items
-                ArrayList<Menu> menuList = restaurant.getMenu();
-                // Clear the list view
-                menuItems.clear();
-                // Add the menu items to the list view
-                menuItems.addAll(menuList.stream().map(Menu::getNamaMakanan).collect(Collectors.toList()));
-            } else {
-                // Show an alert if no restaurant is selected
-                MainApp.createAlert("Invalid Restaurant Name", "Pilih salah satu restoran!");
+            // Check if the restaurant combobox is empty
+            if (restaurantComboBox.getSelectionModel().isEmpty()) {
+                createAlert("Invalid Restaurant", "Pilih Restoran terlebih dahulu!");
+                return;
             }
+
+            // Update the list view with the menu items of the selected restaurant
+            refreshListView(restaurantComboBox, menuItemsListView, false);
         });
         orderButton.setOnAction(e -> {
             // Get the selected restaurant
             String selectedRestaurant = restaurantComboBox.getSelectionModel().getSelectedItem();
 
-            // Get the restaurant object
-            Restaurant restaurant = DepeFood.getRestaurantByName(selectedRestaurant);
+            // Get the date
+            String selectedDate = orderDate.getText();
 
-            if (restaurant != null) {
-                // Check if the user doesn't choose any menu items
-                if (menuItemsListView.getSelectionModel().getSelectedItems().isEmpty()) {
-                    MainApp.createAlert("Invalid Menu Items", "Pilih minimal 1 menu!");
-                    return;
-                }
+            // Get the selected menu items
+            List<String> selectedMenuItems = menuItemsListView.getSelectionModel().getSelectedItems();
 
-                // Get the Menu objects
-                List<String> selectedMenuItems = menuItemsListView.getSelectionModel().getSelectedItems();
-                Menu[] selectedMenus = DepeFood.getMenuRequest(restaurant, selectedMenuItems);
-
-                // Get the order date and change the date format to DD/MM/YYYY
-                String orderDateString = orderDate.getValue().getDayOfMonth() + "/" + orderDate.getValue().getMonthValue() + "/" + orderDate.getValue().getYear();
-
-                // Create the order
-                Order order = new Order(Order.generateOrderID(selectedRestaurant, orderDateString, user.getNomorTelepon()), orderDateString, user.calculateOngkir(), DepeFood.getRestaurantByName(selectedRestaurant), selectedMenus);
-
-                // Add the order to the user
-                user.addOrderHistory(order);
-
-                // Show a confirmation alert
-                MainApp.createOK("Order Success", "Order dengan ID " + order.getOrderID() + " berhasil ditambahkan!");
-            } else {
-                // Show an alert if no restaurant is selected
-                MainApp.createAlert("Invalid Restaurant Name", "Pilih salah satu restoran!");
-            }
+            // Call the handleBuatPesanan method
+            handleBuatPesanan(selectedRestaurant, selectedDate, selectedMenuItems);
+        });
+        backButton.setOnAction(e -> {
+            // Update the saldoMenuLabel
+            saldoMenuLabel.setText("Saldo anda: Rp " + user.getSaldo());
+            stage.setScene(scene);
         });
     
         return new Scene(menuLayout, 400, 600);
     }
-    // TODO
-    // private Scene createBillPrinter(){
-    //     // Create bill printer scene
-    //     billPrinter = new BillPrinter(stage, mainApp, user);
-    //     Scene billPrinterScene = billPrinter.getScene();
-    //     return billPrinterScene;
-    // }
+
+    private Scene createBillPrinter(){
+        // Create bill printer scene
+        Scene billPrinterScene = billPrinter.getScene();
+        return billPrinterScene;
+    }
 
     private Scene createBayarBillForm() {
-        VBox menuLayout = new VBox(10);
-        menuLayout.setPadding(new Insets(15, 15, 15, 15));
+        VBox menuLayout = new VBox();
 
         // Create the labels
         Label orderIDLabel = new Label("Order ID:");
@@ -214,16 +187,8 @@ public class CustomerMenu extends MemberMenu{
         Button payBillButton = new Button("Bayar");
         Button backButton = new Button("Kembali");
 
-        // Set the buttons to have the same width, around 150px
-        payBillButton.setMinWidth(150);
-        backButton.setMinWidth(150);
-
-        // Center the text in the buttons
-        payBillButton.setAlignment(Pos.CENTER);
-        backButton.setAlignment(Pos.CENTER);
-
         // Add the components to the layout
-        menuLayout.getChildren().addAll(orderIDLabel, orderIDInput, paymentMethodComboBox, payBillButton, backButton);
+        setUpVBoxLayout(menuLayout, orderIDLabel, orderIDInput, paymentMethodComboBox, payBillButton, backButton);
 
         // Set the action for the buttons
         payBillButton.setOnAction(e -> {
@@ -234,13 +199,17 @@ public class CustomerMenu extends MemberMenu{
             // Call the handleBayarBill method
             handleBayarBill(orderID, pilihanPembayaran);
         });
+        backButton.setOnAction(e -> {
+            // Update the saldoMenuLabel
+            saldoMenuLabel.setText("Saldo anda: Rp " + user.getSaldo());
+            stage.setScene(scene);
+        });
 
         return new Scene(menuLayout, 400,600);
     }
     
     private Scene createCekSaldoScene() {
-        VBox menuLayout = new VBox(10);
-        menuLayout.setPadding(new Insets(15, 15, 15, 15));
+        VBox menuLayout = new VBox();
 
         // Getting user's payment system
         DepeFoodPaymentSystem paymentSystem = user.getPaymentSystem();
@@ -254,39 +223,72 @@ public class CustomerMenu extends MemberMenu{
         // Create the labels
         Label nameLabel = new Label(user.getNama());
         Label paymentMethodLabel = new Label("Metode Pembayaran: " + paymentSystemString);
-        Label saldoLabel = new Label("Saldo: Rp " + user.getSaldo());
+        saldoLabel = new Label("Saldo: Rp " + user.getSaldo());
 
         // Create the buttons
         Button backButton = new Button("Kembali");
 
-        // Set the buttons to have the same width, around 150px
-        backButton.setMinWidth(150);
-
-        // Center the text in the buttons
-        backButton.setAlignment(Pos.CENTER);
-
-        // Add the components to the layout (// paymentMethodLabel, )
-        menuLayout.getChildren().addAll(nameLabel, paymentMethodLabel, saldoLabel, backButton);
+        // Add the components to the layout
+        setUpVBoxLayout(menuLayout, nameLabel, paymentMethodLabel, saldoLabel, backButton);
 
         // Set the action for the buttons
-        backButton.setOnAction(e -> stage.setScene(scene));
+        backButton.setOnAction(e -> {
+            // Update the saldoMenuLabel
+            saldoMenuLabel.setText("Saldo anda: Rp " + user.getSaldo());
+            stage.setScene(scene);
+        });
 
         return new Scene(menuLayout, 400,600);
     }
 
-    // private void handleBuatPesanan(String namaRestoran, String tanggalPemesanan, List<String> menuItems) {
-    //     //TODO: Implementasi validasi isian pesanan
-    //     try {
+    private void handleBuatPesanan(String namaRestoran, String tanggalPemesanan, List<String> menuItems) {
+        // Check if namaRestoran is not selected
+        if (namaRestoran == null) {
+            createAlert("Restaurant Error", "Pilih salah satu restoran yang ada!");
+            return;
+        }
 
-    //     } catch (Exception e) {
+        // Check if tanggalPemesanan is empty
+        if (tanggalPemesanan.isEmpty()) {
+            createAlert("Date Error", "Tanggal pemesanan tidak boleh kosong!");
+            return;
+        }
 
-    //     }
-    // }
+        // Check if the date is in the correct format
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            LocalDate.parse(tanggalPemesanan, formatter);
+        } catch (DateTimeParseException e) {
+            createAlert("Date Error", "Format tanggal salah! Gunakan format DD/MM/YYYY");
+            return;
+        }
+
+        // Check if menuItems is empty
+        if (menuItems.isEmpty()) {
+            createAlert("Menu Error", "Pilih minimal satu menu!");
+            return;
+        }
+        
+        // Get the restaurant object
+        Restaurant restaurant = DepeFood.getRestaurantByName(namaRestoran);
+
+        // Get the menu items
+        Menu[] selectedMenus = DepeFood.getMenuRequest(restaurant, menuItems);
+
+        // Create the order
+        Order order = new Order(Order.generateOrderID(namaRestoran, tanggalPemesanan, user.getNomorTelepon()), tanggalPemesanan, user.calculateOngkir(), restaurant, selectedMenus);
+
+        // Add the order to the user's order list
+        user.addOrderHistory(order);
+
+        // Show a confirmation alert
+        createOK("Order Success", "Order dengan ID " + order.getOrderID() + " berhasil ditambahkan!");
+    }
 
     private void handleBayarBill(String orderID, int pilihanPembayaran) {
         // Check if the order ID is empty
         if (orderID.isEmpty()) {
-            MainApp.createAlert("Order ID Error", "Order ID tidak boleh kosong!");
+            createAlert("Order ID Error", "Order ID tidak boleh kosong!");
             return;
         }
         
@@ -295,13 +297,13 @@ public class CustomerMenu extends MemberMenu{
         
         // Check if the order exists
         if (order == null) {
-            MainApp.createAlert("Order ID Error", "Order ID tidak ditemukan!");
+            createAlert("Order ID Error", "Order ID tidak ditemukan!");
             return;
         }
 
         // Check if the order is already paid
         if (order.getOrderFinished()) {
-            MainApp.createAlert("Order ID Error", "Order ID sudah dibayar!");
+            createAlert("Order ID Error", "Order ID sudah dibayar!");
             return;
         }
         // Get the total amount to be paid
@@ -309,7 +311,7 @@ public class CustomerMenu extends MemberMenu{
         
         // Check if the payment method is not selected
         if (pilihanPembayaran == -1) {
-            MainApp.createAlert("Payment Method Error", "Pilih metode pembayaran!");
+            createAlert("Payment Method Error", "Pilih metode pembayaran!");
             return;
         }
 
@@ -319,7 +321,7 @@ public class CustomerMenu extends MemberMenu{
         if (pilihanPembayaran == 0) {
             // Check if the user has different payment method
             if (paymentSystem instanceof DebitPayment) {
-                MainApp.createAlert("Payment Method Error", "Anda tidak memiliki kartu kredit!");
+                createAlert("Payment Method Error", "Anda tidak memiliki kartu kredit!");
                 return;
             }
 
@@ -328,32 +330,34 @@ public class CustomerMenu extends MemberMenu{
             if (result == -2) {
                 // Pass
             } else if (result == -3) {
-                MainApp.createAlert("Payment Method Error", "Saldo tidak mencukupi!");
+                createAlert("Payment Method Error", "Saldo tidak mencukupi!");
                 return;
             } else {
                 moveSaldo(order, totalAmount);
-                MainApp.createOK("Payment Success", "Berhasil Membayar Bill sebesar Rp " + totalAmount + " dengan biaya transaksi sebesar Rp " + (result - totalAmount));
+                createOK("Payment Success", "Berhasil Membayar Bill sebesar Rp " + totalAmount + " dengan biaya transaksi sebesar Rp " + (result - totalAmount));
             }
         } else if (pilihanPembayaran == 1) {
             // Check if the user has different payment method
             if (paymentSystem instanceof CreditCardPayment) {
-                MainApp.createAlert("Payment Method Error", "Anda tidak memiliki kartu kredit!");
+                createAlert("Payment Method Error", "Anda tidak memiliki kartu kredit!");
                 return;
             }
 
             result = paymentSystem.processPayment(totalAmount);
 
             if (result == -2) {
-                MainApp.createAlert("Payment Method Error", "Jumlah pesanan < 50000 mohon menggunakan metode pembayaran yang lain!");
+                createAlert("Payment Method Error", "Jumlah pesanan < 50000 mohon menggunakan metode pembayaran yang lain!");
                 return;
             } else if (result == -3) {
-                MainApp.createAlert("Payment Method Error", "Saldo tidak mencukupi!");
+                createAlert("Payment Method Error", "Saldo tidak mencukupi!");
                 return;
             } else {
                 moveSaldo(order, totalAmount);
-                MainApp.createOK("Payment Success", "Berhasil Membayar Bill sebesar Rp " + totalAmount + " dengan biaya transaksi sebesar Rp " + (result - totalAmount));
+                createOK("Payment Success", "Berhasil Membayar Bill sebesar Rp " + totalAmount);
             }
         }
+        // Set the order as finished
+        order.setOrderFinished(true);
     }
 
     private void moveSaldo(Order order, long amount) {

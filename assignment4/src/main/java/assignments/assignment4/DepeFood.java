@@ -1,16 +1,17 @@
 package assignments.assignment4;
 
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
+// import java.text.DecimalFormat;
+// import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
-import java.util.Arrays;
+// import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.Scanner;
+// import java.util.Scanner;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
+// import assignments.assignment3.MainMenu;
 import assignments.assignment3.assignment2copy.Menu;
 import assignments.assignment3.assignment2copy.Order;
 import assignments.assignment3.assignment2copy.Restaurant;
@@ -18,10 +19,10 @@ import assignments.assignment3.assignment2copy.User;
 
 import assignments.assignment3.payment.CreditCardPayment;
 import assignments.assignment3.payment.DebitPayment;
-import assignments.assignment3.payment.DepeFoodPaymentSystem;
-import assignments.assignment3.systemCLI.AdminSystemCLI;
-import assignments.assignment3.systemCLI.CustomerSystemCLI;
-import assignments.assignment3.systemCLI.UserSystemCLI;
+// import assignments.assignment3.payment.DepeFoodPaymentSystem;
+// import assignments.assignment3.systemCLI.AdminSystemCLI;
+// import assignments.assignment3.systemCLI.CustomerSystemCLI;
+// import assignments.assignment3.systemCLI.UserSystemCLI;
 
 public class DepeFood {
     private static ArrayList<User> userList;
@@ -83,7 +84,7 @@ public class DepeFood {
     // }
 
     public static String getValidRestaurantName(String inputName) {
-        if (restoList.isEmpty()) {
+        if (inputName.isEmpty()) {
             return "2";
         }
 
@@ -91,7 +92,6 @@ public class DepeFood {
         boolean isRestaurantNameValid = false;
     
         while (!isRestaurantNameValid) {
-            System.out.print("Nama: ");
             boolean isRestaurantExist = restoList.stream().anyMatch(restoran -> restoran.getNama().toLowerCase().equals(inputName.toLowerCase()));
             boolean isRestaurantNameLengthValid = inputName.length() >= 4;
     
@@ -198,58 +198,30 @@ public class DepeFood {
         return order.getOrderID();
     }
 
-    public static void handleBayarBill(String orderId, String paymentOption) {
-        while (true) {
-            Order order = getOrderOrNull(orderId);
-
-            if (order == null) {
-                System.out.println("Order ID tidak dapat ditemukan.\n");
-                continue;
+    public static String generateBill(String orderID) {
+        // Mencari order dengan orderID yang diinput
+        Order order = null;
+        User orderOwner = null;
+        for (User user : userList) { // Mencari pemilik order
+            for (Order orderHistory : user.getOrderHistory()) {
+                if (orderHistory.getOrderID().equals(orderID)) {
+                    order = orderHistory;
+                    orderOwner = user;
+                    break;
+                }
             }
-
-            if (order.getOrderFinished()) {
-                System.out.println("Pesanan dengan ID ini sudah lunas!\n");
-                return;
-            }
-
-            System.out.print("Pilihan Metode Pembayaran: ");
-
-            if (!paymentOption.equals("Credit Card") && !paymentOption.equals("Debit")) {
-                System.out.println("Pilihan tidak valid, silakan coba kembali\n");
-                continue;
-            }
-
-            DepeFoodPaymentSystem paymentSystem = userLoggedIn.getPaymentSystem();
-
-            boolean isCreditCard = paymentSystem instanceof CreditCardPayment;
-
-            if ((isCreditCard && paymentOption.equals("Debit")) || (!isCreditCard && paymentOption.equals("Credit Card"))) {
-                System.out.println("User belum memiliki metode pembayaran ini!\n");
-                continue;
-            }
-
-            long amountToPay = 0;
-
-            try {
-                amountToPay = paymentSystem.processPayment((long) order.totalBiaya());
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-                System.out.println();
-                continue;
-            }
-
-            userLoggedIn.subtractSaldo(amountToPay);
-            handleUpdateStatusPesanan(order);
-
-            DecimalFormat decimalFormat = new DecimalFormat();
-            DecimalFormatSymbols symbols = new DecimalFormatSymbols();
-            symbols.setGroupingSeparator('.');
-            decimalFormat.setDecimalFormatSymbols(symbols);
-
-            System.out.printf("Berhasil Membayar Bill sebesar Rp %s", decimalFormat.format(amountToPay));
-
-            return;
         }
+
+        // Return string bill
+        return "Bill:\n" +
+               "Order ID: " + order.getOrderID() + "\n" +
+               "Tanggal Pemesanan: " + order.getTanggalPemesanan() + "\n" +
+               "Restaurant: " + order.getRestaurant().getNama() + "\n" +
+               "Lokasi Pengiriman: " + orderOwner.getLokasi() + "\n" +
+               "Status Pengiriman: " + order.statusPengiriman() + "\n" +
+               "Pesanan:\n" + order.listMakanan() +
+               "Biaya Ongkos Kirim: Rp " + order.getBiayaOngkosKirim() + "\n" +
+               "Total Biaya: Rp " + String.format("%.0f", order.totalBiaya());
     }
 
     public static Order getOrderOrNull(String orderId) {
@@ -271,11 +243,17 @@ public class DepeFood {
     public static Menu[] getMenuRequest(Restaurant restaurant, List<String> listMenuPesananRequest) {
         Menu[] menu = new Menu[listMenuPesananRequest.size()];
         for (int i = 0; i < menu.length; i++) {
+            Menu matchedMenu = null;
             for (Menu existMenu : restaurant.getMenu()) {
                 if (existMenu.getNamaMakanan().equals(listMenuPesananRequest.get(i))) {
-                    menu[i] = existMenu;
+                    matchedMenu = existMenu;
+                    break;
                 }
             }
+            if (matchedMenu == null) {
+                System.out.println("No match found for menu item: " + listMenuPesananRequest.get(i));
+            }
+            menu[i] = matchedMenu;
         }
         return menu;
     }

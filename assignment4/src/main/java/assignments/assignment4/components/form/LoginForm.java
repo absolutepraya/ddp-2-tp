@@ -4,6 +4,7 @@ package assignments.assignment4.components.form;
 // import assignments.assignment3.assignment2copy.Order;
 // import assignments.assignment3.assignment2copy.Restaurant;
 import assignments.assignment3.assignment2copy.User;
+import assignments.assignment3.MainMenu;
 
 
 // import javafx.geometry.HPos;
@@ -18,19 +19,30 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.Region;
 
 import assignments.assignment4.DepeFood;
 import assignments.assignment4.MainApp;
+import assignments.assignment4.page.MemberMenu;
 import assignments.assignment4.page.AdminMenu;
 import assignments.assignment4.page.CustomerMenu;
 
 // import java.util.function.Consumer;
 
 public class LoginForm {
+    // Just to access the createAlert method
+    private class DummyMemberMenu extends MemberMenu {
+        @Override
+        protected Scene createBaseMenu() {
+            return null;
+        }
+    }
+
     private Stage stage;
     private MainApp mainApp; // MainApp instance
     private TextField nameInput;
     private TextField phoneInput;
+    private DummyMemberMenu dummyMemberMenu = new DummyMemberMenu();
 
     public LoginForm(Stage stage, MainApp mainApp) { // Pass MainApp instance to constructor
         this.stage = stage;
@@ -54,6 +66,7 @@ public class LoginForm {
 
         // Create the labels
         Label welcomeLabel = new Label("Welcome to DepeFood");
+        dummyMemberMenu.setTitleFont(welcomeLabel);
         Label nameLabel = new Label("Name:");
         Label phoneLabel = new Label("Phone Number:");
 
@@ -63,15 +76,26 @@ public class LoginForm {
 
         // Create the login button
         Button loginButton = new Button("Login");
+        loginButton.setMinWidth(150);
         loginButton.setOnAction(e -> handleLogin());
+
+        // Create a spacer
+        Region spacer1 = dummyMemberMenu.createSpacer(20);
+        Region spacer2 = dummyMemberMenu.createSpacer(20);
 
         // Put the components in the grid
         grid.add(welcomeLabel, 0, 0, 2, 1);
-        grid.add(nameLabel, 0, 1);
-        grid.add(nameInput, 1, 1);
-        grid.add(phoneLabel, 0, 2);
-        grid.add(phoneInput, 1, 2);
-        grid.add(loginButton, 1, 3, 2, 1);
+        grid.add(spacer1, 0, 1);
+        grid.add(nameLabel, 0, 2);
+        grid.add(nameInput, 1, 2);
+        grid.add(phoneLabel, 0, 3);
+        grid.add(phoneInput, 1, 3);
+        grid.add(spacer2, 0, 4);
+        grid.add(loginButton, 0, 5, 2, 1);
+
+        // Center the welcome label and login button
+        GridPane.setHalignment(welcomeLabel, javafx.geometry.HPos.CENTER);
+        GridPane.setHalignment(loginButton, javafx.geometry.HPos.CENTER);
 
         return new Scene(grid, 400, 600);
     }
@@ -84,13 +108,13 @@ public class LoginForm {
 
         // Check if the name and phone number are empty
         if (name.isEmpty() || phone.isEmpty()) {
-            MainApp.createAlert("Login Failed", "Nama dan nomor telepon tidak boleh kosong!");
+            dummyMemberMenu.createAlert("Login Failed", "Nama dan nomor telepon tidak boleh kosong!");
             return;
         }
 
         // Check if the phone number is not a number
         if (!phone.matches("[0-9]+")) {
-            MainApp.createAlert("Login Failed", "Nomor telepon harus berupa angka!");
+            dummyMemberMenu.createAlert("Login Failed", "Nomor telepon harus berupa angka!");
             return;
         }
 
@@ -99,28 +123,19 @@ public class LoginForm {
 
         // Check if the user is not found
         if (user == null) {
-            MainApp.createAlert("Login Failed", "User tidak ditemukan!");
+            dummyMemberMenu.createAlert("Login Failed", "User tidak ditemukan!");
             return;
         }
 
         // Set the user in the MainApp instance
         mainApp.setUser(user);
+        // Set the user in the MainApp in assignment3 (some methods are using the user from assignment3)
+        MainMenu.setUserLoggedIn(user);
 
-        // Initialize and populate adminMenuScene [DEBUG]
-        Scene adminMenuScene = new AdminMenu(mainApp.getWindow(), mainApp).getScene();
-        if (adminMenuScene != null) {
-            System.out.println("AdminMenu scene created successfully");
-        } else {
-            System.out.println("Failed to create AdminMenu scene");
-        }
+        // Initialize and populate adminMenuScene and customerMenuScene
+        Scene adminMenuScene = new AdminMenu(mainApp.getWindow(), mainApp, user).getScene();
         mainApp.addScene("AdminMenu", adminMenuScene);
-        // Initialize and populate adminMenuScene [DEBUG]
         Scene customerMenuScene = new CustomerMenu(mainApp.getWindow(), mainApp, user).getScene();
-        if (customerMenuScene != null) {
-            System.out.println("CustomerMenu scene created successfully");
-        } else {
-            System.out.println("Failed to create CustomerMenu scene");
-        }
         mainApp.addScene("CustomerMenu", customerMenuScene);
 
         // Check if the user is an admin
@@ -131,7 +146,7 @@ public class LoginForm {
         }
     }
 
-    public Scene getScene(){
+    public Scene getScene() {
         return this.createLoginForm();
     }
 }

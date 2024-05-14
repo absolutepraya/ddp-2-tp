@@ -3,21 +3,21 @@ package assignments.assignment4;
 import java.util.HashMap;
 import java.util.Map;
 
-import assignments.assignment3.assignment2copy.Menu;
-import assignments.assignment3.assignment2copy.Order;
-import assignments.assignment3.assignment2copy.Restaurant;
+// import assignments.assignment3.assignment2copy.Menu;
+// import assignments.assignment3.assignment2copy.Order;
+// import assignments.assignment3.assignment2copy.Restaurant;
 import assignments.assignment3.assignment2copy.User;
 
-import assignments.assignment4.DepeFood;
+// import assignments.assignment4.DepeFood;
 import assignments.assignment4.components.form.LoginForm;
-import assignments.assignment4.page.AdminMenu;
-import assignments.assignment4.page.CustomerMenu;
+// import assignments.assignment4.page.AdminMenu;
+// import assignments.assignment4.page.CustomerMenu;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
+// import javafx.scene.control.Alert;
 import javafx.stage.Stage;
-import javafx.scene.image.Image;
+// import javafx.scene.image.Image;
 
 public class MainApp extends Application {
 
@@ -62,9 +62,19 @@ public class MainApp extends Application {
         currentScene = scene;
     }
 
+    // Method to set to customer scene
+    public void setCustomerScene() {
+        window.setScene(getScene("CustomerMenu"));
+    }
+
     // Method to get a scene by name
     public Scene getScene(String sceneName) {
         return allScenes.get(sceneName);
+    }
+
+    // Method to get the current scene
+    public Scene getCurrentScene() {
+        return currentScene;
     }
 
     public void addScene(String sceneName, Scene scene){
@@ -78,24 +88,6 @@ public class MainApp extends Application {
     public void logOut() {
         setUser(null); // Clear the current user
         setScene(getScene("Login")); // Switch to the login scene
-    }
-
-    public static void createAlert(String title, String contextText) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle(title);
-        alert.setHeaderText(null); // Hide the header
-        alert.setContentText(contextText);
-        alert.showAndWait();
-        return;
-    }
-
-    public static void createOK(String title, String contextText) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
-        alert.setTitle(title);
-        alert.setHeaderText(null); // Hide the header
-        alert.setContentText(contextText);
-        alert.showAndWait();
-        return;
     }
 
     public static void main(String[] args) {

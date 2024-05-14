@@ -1,43 +1,58 @@
 package assignments.assignment4.components;
 
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
+// import javafx.beans.property.SimpleStringProperty;
+// import javafx.beans.property.StringProperty;
+// import javafx.collections.FXCollections;
+// import javafx.collections.ObservableList;
+// import javafx.geometry.Insets;
+// import javafx.geometry.Pos;
 import javafx.scene.Scene;
+// import javafx.scene.canvas.Canvas;
+// import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
-import javafx.scene.layout.GridPane;
+// import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
-import assignments.assignment3.assignment2copy.Menu;
+// import assignments.assignment3.assignment2copy.Menu;
 import assignments.assignment3.assignment2copy.Order;
-import assignments.assignment3.assignment2copy.Restaurant;
-import assignments.assignment3.assignment2copy.User;
+// import assignments.assignment3.assignment2copy.Restaurant;
+// import assignments.assignment3.assignment2copy.User; 
 
 import assignments.assignment4.DepeFood;
 import assignments.assignment4.MainApp;
+import assignments.assignment4.page.MemberMenu;
 
 public class BillPrinter {
+    // Just to access the createAlert method
+    private class DummyMemberMenu extends MemberMenu {
+        @Override
+        protected Scene createBaseMenu() {
+            return null;
+        }
+    }
+
     private Stage stage;
     private MainApp mainApp;
-    private User user;
-    private Scene scene = mainApp.getScene("CustomerMenu");
+    private Scene scene;
+    private Label billLabel;
+    private DummyMemberMenu dummyMemberMenu = new DummyMemberMenu();
 
-    public BillPrinter(Stage stage, MainApp mainApp, User user) {
+    public BillPrinter(Stage stage, MainApp mainApp, Scene scene) {
         this.stage = stage;
         this.mainApp = mainApp;
-        this.user = user;
+        this.scene = scene;
     }
 
     private Scene createBillPrinterForm() {
-        VBox layout = new VBox(10);
-        layout.setPadding(new Insets(15, 15, 15, 15));
+        VBox layout = new VBox();
+
+        // Get the customer scene from the main app
+        scene = mainApp.getScene("Customer");
 
         // Create the labels
         Label orderIDLabel = new Label("Order ID:");
+        billLabel = new Label("");
 
         // Create the text field
         TextField orderIDInput = new TextField();
@@ -46,41 +61,42 @@ public class BillPrinter {
         Button printBillButton = new Button("Print Bill");
         Button backButton = new Button("Kembali");
 
-        // Set the buttons to have the same width, around 150px
-        printBillButton.setMinWidth(150);
-        backButton.setMinWidth(150);
-
-        // Center the text in the buttons
-        printBillButton.setAlignment(Pos.CENTER);
-        backButton.setAlignment(Pos.CENTER);
-
         // Add the components to the layout
-        layout.getChildren().addAll(orderIDLabel, orderIDInput, printBillButton, backButton);
+        dummyMemberMenu.setUpVBoxLayout(layout, orderIDLabel, orderIDInput, printBillButton, billLabel, backButton);
 
         // Set the action for the buttons
-        printBillButton.setOnAction(e -> {printBill(orderIDInput.getText());});
-        backButton.setOnAction(e -> stage.setScene(scene));
+        backButton.setOnAction(e -> {
+            billLabel.setText("");
+            mainApp.setCustomerScene();
+        }); 
+        printBillButton.setOnAction(e -> {
+            printBill(orderIDInput.getText(), billLabel);
+        });
 
-        return new Scene(layout, 400, 200);
+        return new Scene(layout, 400, 600);
     }
 
-    private void printBill(String orderID) {
-        // // TODO: Print bill implementation
-        // // Check if the order ID is empty
-        // if (orderID.isEmpty()) {
-        //     MainApp.createAlert("Order ID error", "Order ID tidak boleh kosong!");
-        //     return;
-        // }
+    private void printBill(String orderID, Label billLabel) {
+        // Check if the order ID is empty
+        if (orderID.isEmpty()) {
+            dummyMemberMenu.createAlert("Order ID error", "Order ID tidak boleh kosong!");
+            return;
+        }
 
-        // // Get the order
-        // Order order = DepeFood.getOrderOrNull(orderID);
+        // Get the order
+        Order order = DepeFood.getOrderOrNull(orderID);
 
-        // // Check if the order exists
-        // if (order == null) {
-        //     MainApp.createAlert("Order ID error", "Order ID tidak ditemukan!");
-        // }
+        // Check if the order exists
+        if (order == null) {
+            dummyMemberMenu.createAlert("Order ID error", "Order ID tidak ditemukan!");
+            return;
+        }
 
-        // String billString = Order.generateBill(orderID);
+        // Get the bill string
+        String bill = DepeFood.generateBill(orderID);
+
+        // Create label for the bill
+        billLabel.setText(bill);
 
         return;
     }
@@ -89,30 +105,7 @@ public class BillPrinter {
         return this.createBillPrinterForm();
     }
 
-    // Class ini opsional
-    // public class MenuItem {
-    //     private final StringProperty itemName;
-    //     private final StringProperty price;
-
-    //     public MenuItem(String itemName, String price) {
-    //         this.itemName = new SimpleStringProperty(itemName);
-    //         this.price = new SimpleStringProperty(price);
-    //     }
-
-    //     public StringProperty itemNameProperty() {
-    //         return itemName;
-    //     }
-
-    //     public StringProperty priceProperty() {
-    //         return price;
-    //     }
-
-    //     public String getItemName() {
-    //         return itemName.get();
-    //     }
-
-    //     public String getPrice() {
-    //         return price.get();
-    //     }
-    // }
+    public void setScene(Scene scene) {
+        this.scene = scene;
+    }
 }
