@@ -10,6 +10,8 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.scene.layout.Region;
@@ -40,6 +42,12 @@ public class AdminMenu extends MemberMenu {
     @Override
     public Scene createBaseMenu() {
         VBox menuLayout = new VBox();
+
+        // Create illustration image
+        Image illustration = new Image(MainApp.class.getResourceAsStream("/AdminIllustration.png"));
+        ImageView illustrationView = new ImageView(illustration);
+        illustrationView.setFitHeight(120);
+        illustrationView.setFitWidth(134);
         
         // Create buttons for the menu
         Button addRestaurantButton = new Button("Tambah Restoran");
@@ -60,7 +68,7 @@ public class AdminMenu extends MemberMenu {
         Region spacer2 = createSpacer(10);
         
         // Add the components to the layout
-        setUpVBoxLayout(true, menuLayout, title, subtitle, spacer1, addRestaurantButton, addMenuButton, viewRestaurantsButton, spacer2, logOutButton);
+        setUpVBoxLayout(true, menuLayout, title, illustrationView, subtitle, spacer1, addRestaurantButton, addMenuButton, viewRestaurantsButton, spacer2, logOutButton);
         subtitle.setStyle("-fx-text-alignment: center; -fx-text-fill: white;"); // Center the text
         
         // Set the action for each button

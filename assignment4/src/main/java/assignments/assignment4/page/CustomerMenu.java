@@ -3,6 +3,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -20,6 +21,7 @@ import java.util.List;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import javafx.scene.image.ImageView;
 
 public class CustomerMenu extends MemberMenu{
     private Stage stage;
@@ -54,6 +56,12 @@ public class CustomerMenu extends MemberMenu{
     public Scene createBaseMenu() {
         VBox menuLayout = new VBox();
 
+        // Create illustration image
+        Image illustration = new Image(MainApp.class.getResourceAsStream("/CustomerIllustration.png"));
+        ImageView illustrationView = new ImageView(illustration);
+        illustrationView.setFitHeight(120);
+        illustrationView.setFitWidth(134);
+
         // Create the buttons
         Button addOrderButton = new Button("Buat Pesanan");
         Button printBillButton = new Button("Cetak Bill");
@@ -74,7 +82,7 @@ public class CustomerMenu extends MemberMenu{
         Region spacer2 = createSpacer(15);
 
         // Add the components to the layout
-        setUpVBoxLayout(true, menuLayout, title, subtitle, saldoMenuLabel, spacer1, addOrderButton, printBillButton, payBillButton, cekSaldoButton, spacer2, logOutButton);
+        setUpVBoxLayout(true, menuLayout, title, illustrationView, subtitle, saldoMenuLabel, spacer1, addOrderButton, printBillButton, payBillButton, cekSaldoButton, spacer2, logOutButton);
         subtitle.setStyle("-fx-text-alignment: center; -fx-text-fill: white;"); // Center the text
         saldoMenuLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: #4dff00;"); // Bold and green colored
 

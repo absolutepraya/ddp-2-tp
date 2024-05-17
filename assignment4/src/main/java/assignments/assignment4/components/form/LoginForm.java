@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.scene.layout.ColumnConstraints;
@@ -16,6 +17,7 @@ import assignments.assignment4.MainApp;
 import assignments.assignment4.page.MemberMenu;
 import assignments.assignment4.page.AdminMenu;
 import assignments.assignment4.page.CustomerMenu;
+import javafx.scene.image.ImageView;
 
 public class LoginForm {
     // Just to access the createAlert method
@@ -52,6 +54,12 @@ public class LoginForm {
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
 
+        // Create illustration image
+        Image illustration = new Image(MainApp.class.getResourceAsStream("/LoginIllustration.png"));
+        ImageView illustrationView = new ImageView(illustration);
+        illustrationView.setFitWidth(200);
+        illustrationView.setFitHeight(200);
+
         // Create the labels
         Label welcomeLabel = new Label("Welcome to DepeFood!");
         Label nameLabel = new Label("Name:");
@@ -74,16 +82,19 @@ public class LoginForm {
         // Create a spacer
         Region spacer1 = dummyMemberMenu.createSpacer(20);
         Region spacer2 = dummyMemberMenu.createSpacer(20);
+        Region spacer3 = dummyMemberMenu.createSpacer(20);
 
         // Put the components in the grid
         grid.add(welcomeLabel, 0, 0, 2, 1);
         grid.add(spacer1, 0, 1);
-        grid.add(nameLabel, 0, 2);
-        grid.add(nameInput, 1, 2);
-        grid.add(phoneLabel, 0, 3);
-        grid.add(phoneInput, 1, 3);
-        grid.add(spacer2, 0, 4);
-        grid.add(loginButton, 0, 5, 2, 1);
+        grid.add(illustrationView, 0, 2, 2, 1);
+        grid.add(spacer2, 0, 3);
+        grid.add(nameLabel, 0, 4);
+        grid.add(nameInput, 1, 4);
+        grid.add(phoneLabel, 0, 5);
+        grid.add(phoneInput, 1, 5);
+        grid.add(spacer3, 0, 6);
+        grid.add(loginButton, 0, 7, 2, 1);
 
         // Set the login button style
         dummyMemberMenu.setLoginButtonStyle(loginButton);
