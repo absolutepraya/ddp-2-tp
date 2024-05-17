@@ -60,19 +60,22 @@ public class AdminMenu extends MemberMenu {
         Button viewRestaurantsButton = new Button("Lihat Daftar Restoran");
         Button logOutButton = new Button("Log Out");
 
+        // Set the button styles
+        setRegularButtonStyle(addRestaurantButton, addMenuButton, viewRestaurantsButton);
+        setLogoutButtonStyle(logOutButton);
+
         // Create title and subtitle label
         Label title = new Label("Admin Menu");
-        setTitleFont(title);
         Label subtitle = new Label("Welcome, mimin " + user.getNama() + "!\nPilih menu yang ingin diakses.");
-        subtitle.setStyle("-fx-text-alignment: center;"); // Center the text
-
+        
         // Create spacer
         Region spacer1 = createSpacer(20);
         Region spacer2 = createSpacer(10);
         
         // Add the components to the layout
-        setUpVBoxLayout(menuLayout, title, subtitle, spacer1, addRestaurantButton, addMenuButton, viewRestaurantsButton, spacer2, logOutButton);
-
+        setUpVBoxLayout(true, menuLayout, title, subtitle, spacer1, addRestaurantButton, addMenuButton, viewRestaurantsButton, spacer2, logOutButton);
+        subtitle.setStyle("-fx-text-alignment: center; -fx-text-fill: white;"); // Center the text
+        
         // Set the action for each button
         addRestaurantButton.setOnAction(e -> {stage.setScene(addRestaurantScene);});
         addMenuButton.setOnAction(e -> {
@@ -96,16 +99,23 @@ public class AdminMenu extends MemberMenu {
 
         // Create the text fields
         TextField nameInput = new TextField();
+
+        // Set placeholder text
+        nameInput.setPromptText("Ayam Bakar Mas Roni");
         
         // Create the buttons
         Button submitButton = new Button("Submit");
         Button backButton = new Button("Kembali");
 
+        // Set the button styles
+        setLoginButtonStyle(submitButton);
+        setLogoutButtonStyle(backButton);
+
         // Create a spacer
         Region spacer = createSpacer(15);
         
         // Add the components to the layout
-        setUpVBoxLayout(layout, nameLabel, nameInput, submitButton, spacer, backButton);
+        setUpVBoxLayout(false, layout, nameLabel, nameInput, submitButton, spacer, backButton);
 
         // Set the action for the submit button
         submitButton.setOnAction(e -> {
@@ -130,16 +140,25 @@ public class AdminMenu extends MemberMenu {
         TextField menuNameInput = new TextField();
         TextField priceInput = new TextField();
 
+        // Set placeholder text
+        menuNameInput.setPromptText("Ayam Bakar Madu");
+        priceInput.setPromptText("69000");
+
         // Create the buttons
         Button submitButton = new Button("Add Menu Item");
+        setLoginButtonStyle(submitButton);
         Button backButton = new Button("Kembali");
+
+        // Set the button styles
+        setLoginButtonStyle(submitButton);
+        setLogoutButtonStyle(backButton);
 
         // Create a spacer
         // Create a spacer
         Region spacer = createSpacer(15);
         
         // Add the components to the layout
-        setUpVBoxLayout(layout, restaurantLabel, restaurantComboBox1, menuNameLabel, menuNameInput, priceLabel, priceInput, submitButton, spacer, backButton);
+        setUpVBoxLayout(false, layout, restaurantLabel, restaurantComboBox1, menuNameLabel, menuNameInput, priceLabel, priceInput, submitButton, spacer, backButton);
 
         // Set the action for the submit button
         submitButton.setOnAction(e -> {
@@ -173,8 +192,12 @@ public class AdminMenu extends MemberMenu {
         Button searchButton = new Button("Search");
         Button backButton = new Button("Kembali");
 
+        // Set the button styles
+        setLoginButtonStyle(searchButton);
+        setLogoutButtonStyle(backButton);
+
         // Add the components to the layout
-        setUpVBoxLayout(layout, restaurantLabel, restaurantComboBox2, searchButton,  menuItemsLabel, menuItemsListView, backButton);
+        setUpVBoxLayout(false, layout, restaurantLabel, restaurantComboBox2, searchButton,  menuItemsLabel, menuItemsListView, backButton);
 
         // Set the action for the search button
         searchButton.setOnAction(e -> {

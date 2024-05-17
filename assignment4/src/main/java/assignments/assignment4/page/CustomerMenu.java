@@ -60,7 +60,6 @@ public class CustomerMenu extends MemberMenu{
         this.printBillScene = createBillPrinter();
         this.payBillScene = createBayarBillForm();
         this.cekSaldoScene = createCekSaldoScene();
-        this.saldoMenuLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: green;");
         this.saldoMenuLabel.setText("Saldo anda: Rp " + user.getSaldo());
     }
 
@@ -75,18 +74,22 @@ public class CustomerMenu extends MemberMenu{
         Button cekSaldoButton = new Button("Cek Saldo");
         Button logOutButton = new Button("Log Out");
 
+        // Set the button style
+        setRegularButtonStyle(addOrderButton, printBillButton, payBillButton, cekSaldoButton);
+        setLogoutButtonStyle(logOutButton);
+
         // Create title and subtitle label
         Label title = new Label("Customer Menu");
-        setTitleFont(title);
         Label subtitle = new Label("Welcome, " + user.getNama() + "!\nMau makan apa hari ini :D");
-        subtitle.setStyle("-fx-text-alignment: center;"); // Center the text
 
         // Create spacer
         Region spacer1 = createSpacer(15);
         Region spacer2 = createSpacer(15);
 
         // Add the components to the layout
-        setUpVBoxLayout(menuLayout, title, subtitle, saldoMenuLabel, spacer1, addOrderButton, printBillButton, payBillButton, cekSaldoButton, spacer2, logOutButton);
+        setUpVBoxLayout(true, menuLayout, title, subtitle, saldoMenuLabel, spacer1, addOrderButton, printBillButton, payBillButton, cekSaldoButton, spacer2, logOutButton);
+        subtitle.setStyle("-fx-text-alignment: center; -fx-text-fill: white;"); // Center the text
+        saldoMenuLabel.setStyle("-fx-font-weight: bold; -fx-text-fill: #4dff00;"); // Bold and green colored
 
         // Set the action for the buttons
         addOrderButton.setOnAction(e -> {
@@ -120,6 +123,7 @@ public class CustomerMenu extends MemberMenu{
         ListView<String> menuItemsListView = new ListView<>();
         ObservableList<String> menuItems = FXCollections.observableArrayList();
         menuItemsListView.setItems(menuItems);
+
         // Enable multiple selection
         menuItemsListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
@@ -128,8 +132,12 @@ public class CustomerMenu extends MemberMenu{
         Button orderButton = new Button("Buat Pesanan");
         Button backButton = new Button("Kembali");
 
+        // Set the button style
+        setLoginButtonStyle(menuButton, orderButton);
+        setLogoutButtonStyle(backButton);
+
         // Add the components to the layout
-        setUpVBoxLayout(menuLayout, restaurantLabel, restaurantComboBox, dateLabel, orderDate, menuButton,  menuLabel, menuItemsListView, orderButton, backButton);
+        setUpVBoxLayout(false, menuLayout, restaurantLabel, restaurantComboBox, dateLabel, orderDate, menuButton,  menuLabel, menuItemsListView, orderButton, backButton);
 
         // Set the action for the buttons
         menuButton.setOnAction(e -> {
@@ -179,6 +187,9 @@ public class CustomerMenu extends MemberMenu{
         // Create the text field
         TextField orderIDInput = new TextField();
 
+        // Set placeholder text
+        orderIDInput.setPromptText("XXXXDDMMYYYYXXXX");
+
         // Create combo box for payment method
         ComboBox<String> paymentMethodComboBox = new ComboBox<>();
         paymentMethodComboBox.setItems(FXCollections.observableArrayList("Credit Card", "Debit"));
@@ -187,11 +198,15 @@ public class CustomerMenu extends MemberMenu{
         Button payBillButton = new Button("Bayar");
         Button backButton = new Button("Kembali");
 
+        // Set the button style
+        setLoginButtonStyle(payBillButton);
+        setLogoutButtonStyle(backButton);
+
         // Create spacer
         Region spacer = createSpacer(15);
 
         // Add the components to the layout
-        setUpVBoxLayout(menuLayout, orderIDLabel, orderIDInput, paymentMethodComboBox, payBillButton, spacer, backButton);
+        setUpVBoxLayout(false, menuLayout, orderIDLabel, orderIDInput, paymentMethodComboBox, payBillButton, spacer, backButton);
 
         // Set the action for the buttons
         payBillButton.setOnAction(e -> {
@@ -225,7 +240,6 @@ public class CustomerMenu extends MemberMenu{
 
         // Create the labels
         Label saldoTitleLabel = new Label("Informasi Saldo");
-        setTitleFont(saldoTitleLabel);
         Label nameLabel = new Label(user.getNama());
         Label paymentMethodLabel = new Label("Metode Pembayaran: " + paymentSystemString);
         saldoLabel = new Label("Saldo: Rp " + user.getSaldo());
@@ -233,12 +247,15 @@ public class CustomerMenu extends MemberMenu{
         // Create the buttons
         Button backButton = new Button("Kembali");
 
+        // Set the button style
+        setLogoutButtonStyle(backButton);
+
         // Create spacer
         Region spacer1 = createSpacer(15);
         Region spacer2 = createSpacer(15);
 
         // Add the components to the layout
-        setUpVBoxLayout(menuLayout, saldoTitleLabel, spacer1, nameLabel, paymentMethodLabel, saldoLabel, spacer2, backButton);
+        setUpVBoxLayout(true, menuLayout, saldoTitleLabel, spacer1, nameLabel, paymentMethodLabel, saldoLabel, spacer2, backButton);
 
         // Set the action for the buttons
         backButton.setOnAction(e -> {

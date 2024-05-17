@@ -54,12 +54,16 @@ public class BillPrinter {
         // Create the text field
         TextField orderIDInput = new TextField();
 
-        // create the buttons
+        // Create the buttons
         Button printBillButton = new Button("Print Bill");
         Button backButton = new Button("Kembali");
 
+        // Set the button styles
+        dummyMemberMenu.setLoginButtonStyle(printBillButton);
+        dummyMemberMenu.setLogoutButtonStyle(backButton);
+
         // Add the components to the layout
-        dummyMemberMenu.setUpVBoxLayout(layout, orderIDLabel, orderIDInput, printBillButton, billLabel, backButton);
+        dummyMemberMenu.setUpVBoxLayout(false, layout, orderIDLabel, orderIDInput, printBillButton, billLabel, backButton);
 
         // Set the action for the buttons
         backButton.setOnAction(e -> {

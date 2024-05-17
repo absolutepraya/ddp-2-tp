@@ -20,7 +20,6 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.Region;
-
 import assignments.assignment4.DepeFood;
 import assignments.assignment4.MainApp;
 import assignments.assignment4.page.MemberMenu;
@@ -65,14 +64,18 @@ public class LoginForm {
         grid.setPadding(new Insets(25, 25, 25, 25));
 
         // Create the labels
-        Label welcomeLabel = new Label("Welcome to DepeFood");
-        dummyMemberMenu.setTitleFont(welcomeLabel);
+        Label welcomeLabel = new Label("Welcome to DepeFood!");
         Label nameLabel = new Label("Name:");
         Label phoneLabel = new Label("Phone Number:");
+        dummyMemberMenu.setWhiteLabel(true, welcomeLabel, nameLabel, phoneLabel);
 
         // Create the text fields
         nameInput = new TextField();
         phoneInput = new TextField();
+
+        // Set placeholder text
+        nameInput.setPromptText("John Doe");
+        phoneInput.setPromptText("81234567890");
 
         // Create the login button
         Button loginButton = new Button("Login");
@@ -93,10 +96,15 @@ public class LoginForm {
         grid.add(spacer2, 0, 4);
         grid.add(loginButton, 0, 5, 2, 1);
 
+        // Set the login button style
+        dummyMemberMenu.setLoginButtonStyle(loginButton);
+
         // Center the welcome label and login button
         GridPane.setHalignment(welcomeLabel, javafx.geometry.HPos.CENTER);
         GridPane.setHalignment(loginButton, javafx.geometry.HPos.CENTER);
 
+        // Set the grid background color
+        grid.setStyle("-fx-background-color: #373737;");
         return new Scene(grid, 400, 600);
     }
 
