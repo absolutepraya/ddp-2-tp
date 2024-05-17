@@ -1,22 +1,10 @@
 package assignments.assignment4.page;
-
-// import java.util.ArrayList;
-// import java.util.List;
-// import java.util.stream.Collectors;
-
-// import assignments.assignment3.assignment2copy.Menu;
-// import assignments.assignment3.assignment2copy.Order;
 import assignments.assignment3.assignment2copy.Restaurant;
 import assignments.assignment3.assignment2copy.User;
-
 import assignments.assignment4.DepeFood;
 import assignments.assignment4.MainApp;
-
 import javafx.collections.FXCollections;
-// import javafx.geometry.Insets;
-// import javafx.geometry.Pos;
 import javafx.scene.Scene;
-// import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -33,7 +21,6 @@ public class AdminMenu extends MemberMenu {
     private Scene addRestaurantScene;
     private Scene addMenuScene;
     private Scene viewRestaurantsScene;
-    // private List<Restaurant> restoList = DepeFood.getRestoList();
     private MainApp mainApp; // Reference to MainApp instance
     private ComboBox<String> restaurantComboBox1 = new ComboBox<>(); // ComboBox for add menu
     private ComboBox<String> restaurantComboBox2 = new ComboBox<>(); // ComboBox for view restaurant

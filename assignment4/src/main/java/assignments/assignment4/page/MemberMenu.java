@@ -1,5 +1,4 @@
 package assignments.assignment4.page;
-
 import javafx.scene.Scene;
 import javafx.scene.Node;
 import javafx.scene.control.Alert;
@@ -13,10 +12,8 @@ import javafx.geometry.Pos;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
-
 import java.util.List;
 import java.util.stream.Collectors;
-
 import assignments.assignment3.assignment2copy.Restaurant;
 import assignments.assignment4.DepeFood;
 

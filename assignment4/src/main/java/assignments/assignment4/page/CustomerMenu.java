@@ -1,16 +1,11 @@
 package assignments.assignment4.page;
-
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-// import javafx.geometry.Insets;
-// import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.Region;
-// import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-
 import assignments.assignment3.assignment2copy.Menu;
 import assignments.assignment3.assignment2copy.Order;
 import assignments.assignment3.assignment2copy.Restaurant;
@@ -18,16 +13,11 @@ import assignments.assignment3.assignment2copy.User;
 import assignments.assignment3.payment.DepeFoodPaymentSystem;
 import assignments.assignment3.payment.CreditCardPayment;
 import assignments.assignment3.payment.DebitPayment;
-
 import assignments.assignment4.DepeFood;
 import assignments.assignment4.MainApp;
 import assignments.assignment4.components.BillPrinter;
-
-// import java.util.ArrayList;
-// import java.util.Arrays;
 import java.util.List;
 import java.time.LocalDate;
-// import java.util.stream.Collectors;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
@@ -42,10 +32,7 @@ public class CustomerMenu extends MemberMenu{
     private ComboBox<String> restaurantComboBox = new ComboBox<>();
     private Label saldoLabel = new Label();
     private Label saldoMenuLabel = new Label();
-    // Set the saldoMenuLabel to bold and green colored
-    // private static Label label = new Label();
     private MainApp mainApp;
-    // private List<Restaurant> restoList = DepeFood.getRestoList();
     private User user;
 
     public CustomerMenu(Stage stage, MainApp mainApp, User user) {

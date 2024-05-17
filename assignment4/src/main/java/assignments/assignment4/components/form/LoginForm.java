@@ -1,18 +1,9 @@
 package assignments.assignment4.components.form;
-
-// import assignments.assignment3.assignment2copy.Menu;
-// import assignments.assignment3.assignment2copy.Order;
-// import assignments.assignment3.assignment2copy.Restaurant;
 import assignments.assignment3.assignment2copy.User;
 import assignments.assignment3.MainMenu;
-
-
-// import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-// import javafx.geometry.VPos;
 import javafx.scene.Scene;
-// import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -25,8 +16,6 @@ import assignments.assignment4.MainApp;
 import assignments.assignment4.page.MemberMenu;
 import assignments.assignment4.page.AdminMenu;
 import assignments.assignment4.page.CustomerMenu;
-
-// import java.util.function.Consumer;
 
 public class LoginForm {
     // Just to access the createAlert method

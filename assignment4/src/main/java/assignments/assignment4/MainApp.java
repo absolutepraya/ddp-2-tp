@@ -5,7 +5,7 @@ import assignments.assignment4.components.form.LoginForm;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-// import javafx.scene.image.Image;
+import javafx.scene.image.Image;
 
 public class MainApp extends Application {
 
@@ -21,8 +21,7 @@ public class MainApp extends Application {
         DepeFood.initUser(); // Initialize users
 
         // Set the app icon
-        // Image appIcon = new Image(getClass().getResourceAsStream("/assignments/assignment4/assets/AppIcon.png"));
-        // window.getIcons().add(appIcon);
+        window.getIcons().add(new Image(MainApp.class.getResourceAsStream("/AppIcon.png")));
 
         // Make the window not resizable and set the size
         window.setResizable(false);
@@ -39,10 +38,6 @@ public class MainApp extends Application {
         setScene(loginScene);
         window.show();
     }
-
-    // public void setUser(User newUser) {
-    //     user = newUser;
-    // }
 
     // Method to set a scene
     public void setScene(Scene scene) {

@@ -1,28 +1,16 @@
 package assignments.assignment4;
-
-// import java.text.DecimalFormat;
-// import java.text.DecimalFormatSymbols;
 import java.util.ArrayList;
-// import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-// import java.util.Scanner;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-
-// import assignments.assignment3.MainMenu;
 import assignments.assignment3.assignment2copy.Menu;
 import assignments.assignment3.assignment2copy.Order;
 import assignments.assignment3.assignment2copy.Restaurant;
 import assignments.assignment3.assignment2copy.User;
-
 import assignments.assignment3.payment.CreditCardPayment;
 import assignments.assignment3.payment.DebitPayment;
-// import assignments.assignment3.payment.DepeFoodPaymentSystem;
-// import assignments.assignment3.systemCLI.AdminSystemCLI;
-// import assignments.assignment3.systemCLI.CustomerSystemCLI;
-// import assignments.assignment3.systemCLI.UserSystemCLI;
 
 public class DepeFood {
     private static ArrayList<User> userList;
@@ -72,17 +60,6 @@ public class DepeFood {
         return user;
     }
 
-    // public static void handleTambahRestoran(String nama) {
-    //     Restaurant restaurant = new Restaurant(nama);
-    //     while (restaurant == null) {
-    //         String namaRestaurant = getValidRestaurantName(nama);
-    //         restaurant = new Restaurant(namaRestaurant);
-    //     }
-    //     restoList.add(restaurant);
-    //     System.out.print("Restaurant " + restaurant.getNama() + " Berhasil terdaftar.");
-    //     System.out.print(restoList.get(0).getNama());
-    // }
-
     public static String getValidRestaurantName(String inputName) {
         if (inputName.isEmpty()) {
             return "2";
@@ -108,15 +85,6 @@ public class DepeFood {
         }
         return name;
     }
-
-    // public static Restaurant findRestaurant(String nama) {
-    //     for (Restaurant resto : restoList) {
-    //         if (resto.getNama().equals(nama)) {
-    //             return resto;
-    //         }
-    //     }
-    //     return null; 
-    // }
 
     public static String getValidMenuItemName(String itemName, String price) {
         // If the menu item name is already exist
@@ -272,8 +240,4 @@ public class DepeFood {
     public static void handleUpdateStatusPesanan(Order order) {
         order.setOrderFinished(true);
     }
-    
-    // public static void setPenggunaLoggedIn(User user){
-    //     userLoggedIn = user;
-    // }
 }
