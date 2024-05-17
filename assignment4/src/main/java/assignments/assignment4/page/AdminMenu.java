@@ -100,9 +100,12 @@ public class AdminMenu extends MemberMenu {
         // Create the buttons
         Button submitButton = new Button("Submit");
         Button backButton = new Button("Kembali");
+
+        // Create a spacer
+        Region spacer = createSpacer(15);
         
         // Add the components to the layout
-        setUpVBoxLayout(layout, nameLabel, nameInput, submitButton, backButton);
+        setUpVBoxLayout(layout, nameLabel, nameInput, submitButton, spacer, backButton);
 
         // Set the action for the submit button
         submitButton.setOnAction(e -> {
@@ -130,9 +133,13 @@ public class AdminMenu extends MemberMenu {
         // Create the buttons
         Button submitButton = new Button("Add Menu Item");
         Button backButton = new Button("Kembali");
+
+        // Create a spacer
+        // Create a spacer
+        Region spacer = createSpacer(15);
         
         // Add the components to the layout
-        setUpVBoxLayout(layout, restaurantLabel, restaurantComboBox1, menuNameLabel, menuNameInput, priceLabel, priceInput, submitButton, backButton);
+        setUpVBoxLayout(layout, restaurantLabel, restaurantComboBox1, menuNameLabel, menuNameInput, priceLabel, priceInput, submitButton, spacer, backButton);
 
         // Set the action for the submit button
         submitButton.setOnAction(e -> {

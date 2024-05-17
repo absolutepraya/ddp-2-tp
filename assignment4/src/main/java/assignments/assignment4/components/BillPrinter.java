@@ -32,27 +32,24 @@ public class BillPrinter {
         }
     }
 
-    private Stage stage;
+    // private Stage stage;
     private MainApp mainApp;
-    private Scene scene;
+    // private Scene scene;
     private Label billLabel;
     private DummyMemberMenu dummyMemberMenu = new DummyMemberMenu();
 
     public BillPrinter(Stage stage, MainApp mainApp, Scene scene) {
-        this.stage = stage;
+        // this.stage = stage;
         this.mainApp = mainApp;
-        this.scene = scene;
+        // this.scene = scene;
     }
 
     private Scene createBillPrinterForm() {
         VBox layout = new VBox();
 
-        // Get the customer scene from the main app
-        scene = mainApp.getScene("Customer");
-
         // Create the labels
         Label orderIDLabel = new Label("Order ID:");
-        billLabel = new Label("");
+        billLabel = new Label("   "); // Acts as spacer at first
 
         // Create the text field
         TextField orderIDInput = new TextField();
@@ -105,7 +102,7 @@ public class BillPrinter {
         return this.createBillPrinterForm();
     }
 
-    public void setScene(Scene scene) {
-        this.scene = scene;
-    }
+    // public void setScene(Scene scene) {
+    //     this.scene = scene;
+    // }
 }

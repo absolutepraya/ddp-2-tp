@@ -56,7 +56,7 @@ public class CustomerMenu extends MemberMenu{
         setScene(scene);
         this.addOrderScene = createTambahPesananForm();
         this.billPrinter = new BillPrinter(stage, mainApp, scene);
-        billPrinter.setScene(scene);
+        // billPrinter.setScene(scene);
         this.printBillScene = createBillPrinter();
         this.payBillScene = createBayarBillForm();
         this.cekSaldoScene = createCekSaldoScene();
@@ -82,8 +82,8 @@ public class CustomerMenu extends MemberMenu{
         subtitle.setStyle("-fx-text-alignment: center;"); // Center the text
 
         // Create spacer
-        Region spacer1 = createSpacer(20);
-        Region spacer2 = createSpacer(10);
+        Region spacer1 = createSpacer(15);
+        Region spacer2 = createSpacer(15);
 
         // Add the components to the layout
         setUpVBoxLayout(menuLayout, title, subtitle, saldoMenuLabel, spacer1, addOrderButton, printBillButton, payBillButton, cekSaldoButton, spacer2, logOutButton);
@@ -187,8 +187,11 @@ public class CustomerMenu extends MemberMenu{
         Button payBillButton = new Button("Bayar");
         Button backButton = new Button("Kembali");
 
+        // Create spacer
+        Region spacer = createSpacer(15);
+
         // Add the components to the layout
-        setUpVBoxLayout(menuLayout, orderIDLabel, orderIDInput, paymentMethodComboBox, payBillButton, backButton);
+        setUpVBoxLayout(menuLayout, orderIDLabel, orderIDInput, paymentMethodComboBox, payBillButton, spacer, backButton);
 
         // Set the action for the buttons
         payBillButton.setOnAction(e -> {
@@ -221,6 +224,8 @@ public class CustomerMenu extends MemberMenu{
         }
 
         // Create the labels
+        Label saldoTitleLabel = new Label("Informasi Saldo");
+        setTitleFont(saldoTitleLabel);
         Label nameLabel = new Label(user.getNama());
         Label paymentMethodLabel = new Label("Metode Pembayaran: " + paymentSystemString);
         saldoLabel = new Label("Saldo: Rp " + user.getSaldo());
@@ -228,8 +233,12 @@ public class CustomerMenu extends MemberMenu{
         // Create the buttons
         Button backButton = new Button("Kembali");
 
+        // Create spacer
+        Region spacer1 = createSpacer(15);
+        Region spacer2 = createSpacer(15);
+
         // Add the components to the layout
-        setUpVBoxLayout(menuLayout, nameLabel, paymentMethodLabel, saldoLabel, backButton);
+        setUpVBoxLayout(menuLayout, saldoTitleLabel, spacer1, nameLabel, paymentMethodLabel, saldoLabel, spacer2, backButton);
 
         // Set the action for the buttons
         backButton.setOnAction(e -> {
@@ -318,7 +327,7 @@ public class CustomerMenu extends MemberMenu{
         // Pay the bill based on the user's payment method
         long result;
         DepeFoodPaymentSystem paymentSystem = user.getPaymentSystem();
-        if (pilihanPembayaran == 0) {
+        if (pilihanPembayaran == 0) { // Kartu Kredit
             // Check if the user has different payment method
             if (paymentSystem instanceof DebitPayment) {
                 createAlert("Payment Method Error", "Anda tidak memiliki kartu kredit!");
@@ -333,13 +342,13 @@ public class CustomerMenu extends MemberMenu{
                 createAlert("Payment Method Error", "Saldo tidak mencukupi!");
                 return;
             } else {
-                moveSaldo(order, totalAmount);
+                moveSaldo(order, result, 0);
                 createOK("Payment Success", "Berhasil Membayar Bill sebesar Rp " + totalAmount + " dengan biaya transaksi sebesar Rp " + (result - totalAmount));
             }
-        } else if (pilihanPembayaran == 1) {
+        } else if (pilihanPembayaran == 1) { // Debit
             // Check if the user has different payment method
             if (paymentSystem instanceof CreditCardPayment) {
-                createAlert("Payment Method Error", "Anda tidak memiliki kartu kredit!");
+                createAlert("Payment Method Error", "Anda tidak memiliki kartu debit!");
                 return;
             }
 
@@ -352,16 +361,17 @@ public class CustomerMenu extends MemberMenu{
                 createAlert("Payment Method Error", "Saldo tidak mencukupi!");
                 return;
             } else {
-                moveSaldo(order, totalAmount);
-                createOK("Payment Success", "Berhasil Membayar Bill sebesar Rp " + totalAmount);
+                moveSaldo(order, result, 1);
+                createOK("Payment Success", "Berhasil Membayar Bill sebesar Rp " + result);
             }
         }
         // Set the order as finished
         order.setOrderFinished(true);
     }
 
-    private void moveSaldo(Order order, long amount) {
+    private void moveSaldo(Order order, long amount, int method) {
         user.subtractSaldo(amount);
-        order.getRestaurant().addSaldo(amount);
+        if (method == 0) order.getRestaurant().addSaldo(amount * 100 / 102); // 2% transaction fee
+        else order.getRestaurant().addSaldo(amount);
     }
 }

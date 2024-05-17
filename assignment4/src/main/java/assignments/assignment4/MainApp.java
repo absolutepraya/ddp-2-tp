@@ -6,7 +6,7 @@ import java.util.Map;
 // import assignments.assignment3.assignment2copy.Menu;
 // import assignments.assignment3.assignment2copy.Order;
 // import assignments.assignment3.assignment2copy.Restaurant;
-import assignments.assignment3.assignment2copy.User;
+// import assignments.assignment3.assignment2copy.User;
 
 // import assignments.assignment4.DepeFood;
 import assignments.assignment4.components.form.LoginForm;
@@ -24,7 +24,7 @@ public class MainApp extends Application {
     private Stage window;
     private Map<String, Scene> allScenes = new HashMap<>();
     private Scene currentScene;
-    private static User user;
+    // private static User user;
 
     @Override
     public void start(Stage primaryStage) {
@@ -52,9 +52,9 @@ public class MainApp extends Application {
         window.show();
     }
 
-    public void setUser(User newUser) {
-        user = newUser;
-    }
+    // public void setUser(User newUser) {
+    //     user = newUser;
+    // }
 
     // Method to set a scene
     public void setScene(Scene scene) {
@@ -86,7 +86,7 @@ public class MainApp extends Application {
     }
 
     public void logOut() {
-        setUser(null); // Clear the current user
+        // setUser(null); // Clear the current user
         setScene(getScene("Login")); // Switch to the login scene
     }
 

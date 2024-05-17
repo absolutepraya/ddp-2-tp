@@ -38,14 +38,14 @@ public class LoginForm {
         }
     }
 
-    private Stage stage;
+    // private Stage stage;
     private MainApp mainApp; // MainApp instance
     private TextField nameInput;
     private TextField phoneInput;
     private DummyMemberMenu dummyMemberMenu = new DummyMemberMenu();
 
     public LoginForm(Stage stage, MainApp mainApp) { // Pass MainApp instance to constructor
-        this.stage = stage;
+        // this.stage = stage;
         this.mainApp = mainApp; // Store MainApp instance
     }
 
@@ -128,7 +128,7 @@ public class LoginForm {
         }
 
         // Set the user in the MainApp instance
-        mainApp.setUser(user);
+        // mainApp.setUser(user);
         // Set the user in the MainApp in assignment3 (some methods are using the user from assignment3)
         MainMenu.setUserLoggedIn(user);
 
